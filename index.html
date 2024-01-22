@@ -8,6 +8,20 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    
+    <div id="game-container">
+        <h1>Rock, Paper, Scissors</h1>
+        <div id="choices">
+            <button id="rock">Rock</button>
+            <button id="paper">Paper</button>
+            <button id="scissors">Scissors</button>
+        </div>
+        <div id="results">
+            <p id="player-choice">Your Choice: <span></span></p>
+            <p id="computer-choice">Computer's Choice: <span></span></p>
+            <p id="round-result">Round Result: <span></span></p>
+            <p id="score">Score - You: <span id="player-score">0</span> Computer: <span id="comp-score">0</span></p>
+        </div>
+        <button id="play-again" style="display:none;">Play Again</button>
+    </div>
 </body>
 </html>

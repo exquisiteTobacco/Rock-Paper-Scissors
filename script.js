@@ -1,104 +1,73 @@
-function getComputerChoice()
-{
-    
+// script.js
+function getComputerChoice() {
     let choice = Math.floor(Math.random() * 3);
-    let a; 
-    if(choice === 0)
-    {
-        a = "rock";
+    if (choice === 0) {
+        return "rock";
+    } else if (choice === 1) {
+        return "paper";
+    } else {
+        return "scissors";
     }
-    else if(choice === 1)
-    {
-        a = "paper";
-    }
-    else if (choice === 2)
-    {
-        a = "scissors";
-    }
-    return(a);
-    
 }
+
 function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.toLowerCase();
-    if(playerSelection == computerSelection)
-    {
-        return("Tie");
+    if (playerSelection == computerSelection) {
+        return "Tie";
     }
-    if(playerSelection  == "rock")
-    {
-        if(computerSelection == "scissors")
-        {
-            return("You win!");
-        }
-        else if(computerSelection == "paper")
-        {
-            return("You lose!");
+    if (playerSelection == "rock") {
+        if (computerSelection == "scissors") {
+            return "You win!";
+        } else {
+            return "You lose!";
         }
     }
-    if(playerSelection == "paper")
-    {
-        if(computerSelection == "rock")
-        {
-            return("You win!");
+    if (playerSelection == "paper") {
+        if (computerSelection == "rock") {
+            return "You win!";
+        } else {
+            return "You lose!";
         }
-        else if(computerSelection == "scissors")
-        {
-            return("You lose!");
+    }
+    if (playerSelection == "scissors") {
+        if (computerSelection == "paper") {
+            return "You win!";
+        } else {
+            return "You lose!";
         }
-        
-    }
-    (playerSelection == "scissors")
-    {
-        if(computerSelection == "paper")
-        {
-            return("You win!");
-        }
-        else if(computerSelection == "rock")
-        {
-            return("You lose!");
-        }
-        
-    }
-}
-function game()
-{
-    console.log("Now you will play a best of 5 of rock, paper, scicors");
-    let playerInput;
-    let result;
-    let playerResult , compResult;
-    for(let i = 0; i < 5; i++)
-    {
-      playerInput = prompt("Enter your choice:");
-
-      result = playRound(playerInput, getComputerChoice());
-      if (result == "Tie")
-      {
-        i--;
-        console.log("Tie! Play again.");
-      }
-      else if(result == "You win!")
-      {
-       playerResult++;
-       console.log("You win! +1 point for you.")
-      }
-      else if(result == "You lose!")
-      {
-        compResult++;
-        console.log("You lose! +1 point for comp.");
-      }
-
-    }
-    if(playerResult > compResult)
-    {
-        console.log("Player wins!");
-    }
-    else
-    {
-        console.log("Comp wins!");
     }
 }
 
+let playerScore = 0;
+let compScore = 0;
 
+document.getElementById('choices').addEventListener('click', function(event) {
+    if (event.target.tagName === 'BUTTON') {
+        const playerSelection = event.target.id;
+        const computerSelection = getComputerChoice();
+        const result = playRound(playerSelection, computerSelection);
 
-const computerSelection = getComputerChoice();
-game();
+        document.getElementById('player-choice').innerText = `Your Choice: ${playerSelection}`;
+        document.getElementById('computer-choice').innerText = `Computer's Choice: ${computerSelection}`;
+        document.getElementById('round-result').innerText = `Round Result: ${result}`;
+
+        if (result === "You win!") {
+            playerScore++;
+        } else if (result === "You lose!") {
+            compScore++;
+        }
+
+        document.getElementById('player-score').innerText = playerScore;
+        document.getElementById('comp-score').innerText = compScore;
+    }
+});
+
+document.getElementById('play-again').addEventListener('click', function() {
+    playerScore = 0;
+    compScore = 0;
+    document.getElementById('player-score').innerText = playerScore;
+    document.getElementById('comp-score').innerText = compScore;
+    document.getElementById('results').innerText = '';
+    document.getElementById('play-again').style.display = 'none';
+});
+
