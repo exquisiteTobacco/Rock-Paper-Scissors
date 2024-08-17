@@ -1,66 +1,55 @@
-// Simple function to get the computer choice.
-function computerChoice() {
-    let random = Math.floor((Math.random() * 3) + 1);
-    
-    if (random === 1) {
-        return "rock";
-    } else if (random === 2) {
-        return "paper";
-    } else {
-        return "scissors";
+const btn1 = document.querySelector("#btn1");
+const btn2 = document.querySelector("#btn2");
+const btn3 = document.querySelector("#btn3");
+const answ = document.querySelector("#result");
+
+let humanScore = 0;
+let computerScore = 0;
+
+function updateScore() {
+    // Check for game end conditions and update the message
+    if (humanScore === 5) {
+        answ.textContent = `You win the game! Final score: Human ${humanScore} - Computer ${computerScore}`;
+        resetGame();
+    } else if (computerScore === 5) {
+        answ.textContent = `You lose the game! Final score: Human ${humanScore} - Computer ${computerScore}`;
+        resetGame();
     }
 }
 
-// Simple function to get human answer.
-function getHumanChoice() {
-    let humanAnswer = prompt("What is your choice? (rock, paper, or scissors)");
-    return humanAnswer.toLowerCase();
+function resetGame() {
+    humanScore = 0;
+    computerScore = 0;
 }
 
-// Function for playing a round that determines who is the winner and adds score. Returns a string.
-function playRound(humanChoice, computerChoice) {
-    if (humanChoice === computerChoice) {
-        return 'It\'s a tie!';
+function playRound(humanChoice) {
+    const compChoice = computerChoice();
+    let result = '';
+
+    if (humanChoice === compChoice) {
+        result = `It's a tie! ${humanChoice} ties with ${compChoice} , current score Player = ${humanScore} : Computer = ${computerScore}.`;
     } else if (
-        (humanChoice === 'rock' && computerChoice === 'scissors') ||
-        (humanChoice === 'scissors' && computerChoice === 'paper') ||
-        (humanChoice === 'paper' && computerChoice === 'rock')
+        (humanChoice === 'rock' && compChoice === 'scissors') ||
+        (humanChoice === 'scissors' && compChoice === 'paper') ||
+        (humanChoice === 'paper' && compChoice === 'rock')
     ) {
-        return `You win this round! ${humanChoice} beats ${computerChoice}`;
+        result = `You win this round! ${humanChoice} beats ${compChoice} , current score Player = ${humanScore} : Computer = ${computerScore}.`;
+        humanScore++;
     } else {
-        return `You lose this round! ${computerChoice} beats ${humanChoice}`;
+        result = `You lose this round! ${compChoice} beats ${humanChoice} , current score Player = ${humanScore} : Computer = ${computerScore}.`;
+        computerScore++;
     }
+    answ.textContent = result;
+    updateScore();
 }
 
-// Main function to play the game.
-function playGame() {
-    // Variables for keeping the score of the game
-    let humanScore = 0;
-    let computerScore = 0;
-    
-    for (let i = 0; i < 5; i++) {
-        let humanChoice = getHumanChoice();
-        let compChoice = computerChoice();
-        let result = playRound(humanChoice, compChoice);
-        alert(result); // Display the result of each round
-        
-        // Update the scores based on the round result
-        if (result.startsWith('You win')) {
-            humanScore++;
-        } else if (result.startsWith('You lose')) {
-            computerScore++;
-        }
-    }
-    
-    // Display the final scores and winner
-    if (humanScore > computerScore) {
-        alert(`You win the game! Final score: Human ${humanScore} - Computer ${computerScore}`);
-    } else if (computerScore > humanScore) {
-        alert(`You lose the game! Final score: Human ${humanScore} - Computer ${computerScore}`);
-    } else {
-        alert(`The game is a tie! Final score: Human ${humanScore} - Computer ${computerScore}`);
-    }
+function computerChoice() {
+    let random = Math.floor(Math.random() * 3);
+    if (random === 0) return "rock";
+    if (random === 1) return "paper";
+    return "scissors";
 }
 
-// Start the game
-playGame();
+btn1.addEventListener('click', () => playRound("rock"));
+btn2.addEventListener('click', () => playRound("paper"));
+btn3.addEventListener('click', () => playRound("scissors"));
